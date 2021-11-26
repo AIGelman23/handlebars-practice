@@ -12,16 +12,21 @@
 <body>
 
 	<div id="derekData"></div>
+	<!-- the div that defines where the data will be outputted -->
 
 	<script type="text/javascript">
 
 		var myInfo = "<p>My name is {{ name }} and I live at {{ street }} in {{ city }}, {{ state }}</p>";
+		// the template itself
 
 		var template = Handlebars.compile(myInfo);
+		// define a template to hold all of our data
 
 		var data = template({ name: "Derek", street: "123 Main St", city: "Pittsburgh", state: "PA" });
+		// define the data that will go into our data 
 
 		document.getElementById("derekData").innerHTML += data;
+		// place all the data within the div with id equal to derekData
 
 	</script>
 

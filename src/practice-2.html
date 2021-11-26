@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Handlebars Practice 2 - Iteration over ordered list</title>
+	<script src="../handlebars-v4.7.7.js"></script>
+</head>
+
+<body>
+	<div id="quoteData"></div>
+
+	<script id="quote-template" type="text/x-handlebars-template">
+
+	<h3>Favorite {{name}} Quotes</h3>
+	<ol>
+		{{#each quotes}}
+		<li>{{quote}}</li>
+		{{/each}}
+	</ol>
+	</script>
+
+	<script type="text/javascript">
+		var quoteInfo = document.getElementById("quote-template").innerHTML;
+
+		var template = Handlebars.compile(quoteInfo);
+
+		var quoteData = template({
+			name: "Yogi Berra",
+			quotes: [
+				{ quote: "If you don't know where you are going, you might wind up someplace else." },
+				{ quote: "You better cut the pizza in four pieces because I'm not hungry enough to eat six." },
+				{ quote: "I never said most of the things I said." },
+				{ quote: "Nobody goes there anymore because it's too crowded." },
+			]
+		});
+
+		document.getElementById("quoteData").innerHTML += quoteData;
+
+	</script>
+
+</body>
+
+</html>

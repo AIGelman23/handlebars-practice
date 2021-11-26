@@ -6,10 +6,31 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Handlebars Practice 2 - Iteration over ordered list</title>
+	<style type="text/css">
+		.redText {
+			color: red;
+		}
+
+		.blueText {
+			color: blue;
+		}
+
+		.greenText {
+			color: green;
+		}
+	</style>
 	<script src="../handlebars-v4.7.7.js"></script>
 </head>
 
 <body>
+
+	<!--
+The following is an example of how we can separate
+our template from our HTML and JavaScript
+we cycle through array items and automatically
+generate an ordered list
+	-->
+
 	<div id="quoteData"></div>
 
 	<script id="quote-template" type="text/x-handlebars-template">
@@ -20,12 +41,62 @@
 		<li>{{quote}}</li>
 		{{/each}}
 	</ol>
+
+	{{{yogiBio}}}<br /><br /> <!-- must be paired with 3 curly braces in order to use italics or tags -->
+
+	{{makeLink "Yogi Berra Museum" "http://yogiberramuseum.org/"}}<br />
+
+	{{changeColor "Make my text red" color="red"}}<br />
+
+	{{sayHello}}
+
 	</script>
 
 	<script type="text/javascript">
 		var quoteInfo = document.getElementById("quote-template").innerHTML;
 
 		var template = Handlebars.compile(quoteInfo);
+
+		// have helpers defined before working with all the data
+		Handlebars.registerHelper("makeLink", function (text, url) {
+			text = Handlebars.Utils.escapeExpression(text);
+			text = Handlebars.Utils.escapeExpression(url);
+
+			var theLink = '<a href="' + url + '">' + text + '</a>';
+
+			return new Handlebars.SafeString(theLink); // prevent string from being escaped
+		});
+
+		// how we can generate html document with styles on the fly
+		// -- we can pass attributes and classes this way
+		Handlebars.registerHelper("changeColor", function (text, options) {
+			text = Handlebars.Utils.escapeExpression(text);
+
+			if (options.hash.color === "red") {
+				return new Handlebars.SafeString("<span class='redText'>" +
+					text + "</span>");
+			} else if (options.hash.color === "blue") {
+				return new Handlebars.SafeString("<span class='blueText'>" +
+					text + "</span>");
+			} else {
+				return new Handlebars.SafeString("<span class='greenText'>" +
+					text + "</span>");
+			}
+		});
+
+		// can keep data really neat and separated using a switch statement
+		Handlebars.registerHelper("sayHello", function (options) {
+			switch (options.data.lang) {
+				case "Spanish":
+					return "Hola";
+					break;
+				case "French":
+					return "Bonjour";
+					break;
+				default:
+					return "Hello";
+			}
+		});
 
 		var quoteData = template({
 			name: "Yogi Berra",
@@ -34,8 +105,14 @@
 				{ quote: "You better cut the pizza in four pieces because I'm not hungry enough to eat six." },
 				{ quote: "I never said most of the things I said." },
 				{ quote: "Nobody goes there anymore because it's too crowded." },
-			]
-		});
+			],
+			yogiBio: '<i>Lawrence Peter "Yogi" Berra (May 12, 1925 - September 22, 2015)</i>',
+		},
+			{
+				data: {
+					lang: "Spanish"
+				}
+			});
 
 		document.getElementById("quoteData").innerHTML += quoteData;
 

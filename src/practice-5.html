@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Practice 5 </title>
+	<script src="../handlebars-v4.7.7.js"></script>
+</head>
+
+<body>
+
+	<div id="contentDiv"></div>
+
+	<script id="the-template" type="text/x-handlebars-template">
+
+		{{> myName}}
+
+	</script>
+
+	<script type="text/javascript">
+		var templateInfo = document.getElementById("the-template").innerHTML;
+
+		var template = Handlebars.compile(templateInfo);
+
+		Handlebars.registerPartial("myName", '{{name}}');
+
+		var templateData = template({
+			name: "Derek",
+			author: "John Smith",
+			comment: "Where should we vacation?",
+			comments: [{
+				author: "Sue Smith",
+				comment: "The beach"
+			},
+			{
+				author: "Paul Smith",
+				comment: "Disneyland"
+			}]
+		});
+
+		document.getElementById('contentDiv').innerHTML += templateData;
+
+	</script>
+
+</body>
+
+</html>
